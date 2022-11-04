@@ -9,7 +9,6 @@ export function Groucard ({title, ...rest} : Props) {
         <Container
             {...rest}
         >
-
             <Icon />
             <Title>
                 {title}
