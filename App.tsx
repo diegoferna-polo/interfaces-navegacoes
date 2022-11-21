@@ -1,4 +1,4 @@
-import { Players } from '@screens/Players'
+import { Routes } from './src/routes'
 import Theme from '@theme/index';
 import { ThemeProvider } from 'styled-components'
 import {useFonts, Roboto_400Regular, Roboto_700Bold} from '@expo-google-fonts/roboto'
@@ -17,7 +17,7 @@ export default function App() {
           translucent
         />
         { 
-          fontsLoader ? <Players /> : <Loading />
+          fontsLoader ? <Routes /> : <Loading />
         }
     </ThemeProvider>
   );

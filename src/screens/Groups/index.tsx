@@ -3,12 +3,37 @@ import { Groucard } from '@components/GroupCard';
 import { Header } from '@components/Header';
 import { Highligh } from '@components/HIghlight';
 import { ListEmpty } from '@components/ListEmpty';
-import { useState } from 'react';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { groupGetAll } from '@storage/group/groupGetAll';
+import { useEffect, useState, useCallback } from 'react';
 import { FlatList } from 'react-native';
 import { Container} from './styles';
 
 export  function Groups() {
   const [groups, setGroups] = useState<string[]>([])
+  const navigation = useNavigation();
+
+  function handlerNewGroup() {
+    navigation.navigate('new')
+  }
+
+  async function fetchGroups() {
+    try {
+      const data = await groupGetAll()
+      setGroups(data)
+    }catch(error){
+      console.log(error)
+    }
+  }
+
+  function handlerOpenGroup(group: string){
+    navigation.navigate('players', {group})
+  }
+
+  useFocusEffect(useCallback(() => {
+    fetchGroups();
+  },[]))
+
   return (
     <Container>
         <Header /> 
@@ -24,10 +49,14 @@ export  function Groups() {
           renderItem={({item}) => (
             <Groucard 
               title={item}
+              onPress={() => handlerOpenGroup(item)}
             />
           )}
         />
-        <Button title='Enviar' />
+        <Button 
+          title='Criar nova turma' 
+          onPress={handlerNewGroup}
+        />
     </Container>
   );
 }
